@@ -1,0 +1,15 @@
+{
+  "name": "hgdom",
+  "version": "1.0.0",
+  "description": "A minimal reconciller, build to deep dive into understanding working and implementation of modern web framework reconciller like react.",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Harshal Ingole",
+  "license": "ISC"
+}
