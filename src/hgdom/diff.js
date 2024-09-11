@@ -17,6 +17,7 @@ Key Differnces to Handle:
   :-if new nodes are added or old nodes are removed, need to add or remove nodes accordingly in the real Dom.
 */
 
+
 function diff(previousVNode, newVNode, parentDom, index = 0) {
   let currentDomNode = parentDom.childNode[index];
   // Check Node differences

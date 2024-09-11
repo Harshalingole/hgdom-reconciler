@@ -53,6 +53,7 @@ export function createRoot(container,newNode){
   }else{
     // Initial render
     const newDom = createRealDom(newNode)
+    console.log("createRoot newDom",newDom)
     container.appendChild(newDom)
   }
   // update the refernces to current virtual dom tree
@@ -90,8 +91,11 @@ export function createRealDom(vNode){
   })
 
   // Recursively create and append child elements
-  vNode.children.forEach((child) => createRealDom(child))
+  vNode.children.forEach((child) => domElement.appendChild(createRealDom(child)))
 
   return domElement
 }
 
+function reRenderComponent(){
+  
+}

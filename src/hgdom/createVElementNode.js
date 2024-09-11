@@ -26,14 +26,13 @@ a)createVElementNode: represent an HTML element in actual Dom and Node of viruta
  * const vNode = createVElementNode('div',{id: container},'Hello world');
 */
 
-function createVElementNode(type,props={},...children){
+export function createVElementNode(type,props={},...children){
   return {
     type: type,
     props: props,
     children: flatternChildren(children)
   }
 }
-
 /**
  * Flattern an array of children and convert text nodes to virtual text nodes.
  * 
@@ -41,9 +40,9 @@ function createVElementNode(type,props={},...children){
  * @returns {vNode[]} - An array of virtual Domes Node. 
  */
 function flatternChildren(children){
-  return children.flat().map((child) => {
-    typeof child === "string" || typeof child === "number" ? createVTextNode() : child
-  })
+  return children.flat().map((child) => 
+    typeof child === "string" || typeof child === "number" ? createVTextNode(child) : child
+  )
 }
 
 
@@ -60,5 +59,3 @@ function createVTextNode(text){
     children: [text]
   }
 }
-
-export default createVElementNode
