@@ -38,25 +38,23 @@ b)Efficient Updates: By only updating parts of the real dom that have changed.
 
 */
 
-let previousNode=null
+export let previousNode=null
 
 /**
- * Render virtual Dom tree into specifc container.
+ * Render Initial virtual Dom tree into root container of app.
  * @param {HTML Element} container - Dom element to to render virutal dom into.
  * @param {object} newNode - An Object representing new virtual dom tree. 
  */
 
-function render(container,newNode){
-
+export function createRoot(container,newNode){
   if(previousNode){
     // futher re-render with diff to only update between differnce from previousNode to newNode
     diff(previousNode,newNode,container)
   }else{
     // Initial render
-    const newDom = creatRealDom(newNode)
+    const newDom = createRealDom(newNode)
     container.appendChild(newDom)
   }
-
   // update the refernces to current virtual dom tree
   previousNode = newNode
 }
@@ -67,7 +65,7 @@ function render(container,newNode){
  * @returns {HTMLElement} - Created html element
  */
 
-function createRealDom(vNode){
+export function createRealDom(vNode){
   
   if(vNode.type === "TEXT_ELEMENT"){
     return document.createTextNode(vNode.children[0])
@@ -97,4 +95,3 @@ function createRealDom(vNode){
   return domElement
 }
 
-export default render
