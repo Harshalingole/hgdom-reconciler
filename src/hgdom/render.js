@@ -53,7 +53,6 @@ export function createRoot(container,newNode){
   }else{
     // Initial render
     const newDom = createRealDom(newNode)
-    console.log("createRoot newDom",newDom)
     container.appendChild(newDom)
   }
   // update the refernces to current virtual dom tree
@@ -69,7 +68,9 @@ export function createRoot(container,newNode){
 export function createRealDom(vNode){
   
   if(vNode.type === "TEXT_ELEMENT"){
-    return document.createTextNode(vNode.children[0])
+    const domElement = document.createTextNode(vNode.children[0])
+    vNode.dom = domElement
+    return domElement
   }
 
   // create a new Dom element bsed on virtual node type.
@@ -80,6 +81,8 @@ export function createRealDom(vNode){
     // Handling Attacing event props
     if(propName.startsWith("on")){
       const eventType = propName.toLowerCase().substring(2)
+      console.log(propName,eventType,vNode.props[propName])
+      domElement.removeEventListener(eventType,vNode.props[propName])
       domElement.addEventListener(eventType,vNode.props[propName])
     }
     // Handling special attribute style
@@ -89,13 +92,9 @@ export function createRealDom(vNode){
       domElement.setAttribute(propName,vNode.props[propName])
     }
   })
-
+  vNode.dom=domElement
   // Recursively create and append child elements
   vNode.children.forEach((child) => domElement.appendChild(createRealDom(child)))
 
   return domElement
-}
-
-function reRenderComponent(){
-  
 }
