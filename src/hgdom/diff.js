@@ -1,6 +1,6 @@
 //------ Diff Algorithm------//
 
-import { createRealDom } from "./render";
+import { createRealDom } from "./render.js";
 
 /* Implementing the Diffing Algorithm
 Diffing is concept of comparing two version of virtual Dom tree (the previous one and the new one)
@@ -18,30 +18,45 @@ Key Differnces to Handle:
 */
 
 
-function diff(previousVNode, newVNode, parentDom, index = 0) {
-  let currentDomNode = parentDom.childNode[index];
-  // Check Node differences
-  if (!previousVNode) {
-    const newDomElement = createRealDom();
-    parentDom.appendChild(newDomElement);
-  } else if (!newVNode) {
+export function diff(oldVNode, newVNode, parentDom, index = 0) {
+  console.log("oldVNode",oldVNode)
+  console.log("newVNode",newVNode)
+  // get the current dom node from the parentDom's children
+  let currentDomNode = parentDom.childNodes[index];
+  // 1)if oldVNode not exist add newVNode
+  if (!oldVNode) {
+    const newDom = createRealDom(newVNode);
+    // newVNode.dom = newDom
+    parentDom.appendChild(newDom);
+  }
+  // 2)if newVNode doesn't exist, remove the oldVNode from the Dom
+  else if (!newVNode) {
     parentDom.removeChild(currentDomNode);
-  } else if (previousVNode.type !== newVNode.type) {
-    const newDomLement = createRealDom(newVNode);
-    parentDom.replaceChild(newDomLement, currentDomNode);
+  }
+  // 3) if the types are differnt, remove the old types with newOne
+  else if (oldVNode.type !== newVNode.type) {
+    const newDom = creatRealDom(newVNode);
+    // newVNode.dom = newDom
+    parentDom.replaceChild(newDom, currentDomNode);
   } else if (
-    previousVNode.type === "TEXT_ELEMENT" &&
-    currentDomNode.type === "TEXT_ELEMENT"
+    oldVNode.type === "TEXT_ELEMENT" &&
+    newVNode.type === "TEXT_ELEMENT"
   ) {
-    if (previousVNode.children[0] !== newVNode.children[0]) {
+    if (
+      typeof oldVNode.children[0] === "string" &&
+      typeof newVNode.children[0] === "string" &&
+      oldVNode.children[0] !== newVNode.children[0]
+    ) {
       currentDomNode.nodeValue = newVNode.children[0];
     }
-  } else {
-    // check attributes differnces & Updated the attribute as needed
-    updateAttributes(previousVNode, newVNode, currentDomNode, index);
+  }
+  // 4)if node type is same, check for attribute and child differnces
+  else {
+    // Update the attributes if needed
+    updateAttributes(oldVNode, newVNode, currentDomNode);
 
     // Recursively applying diff on children
-    const oldChildren = previousVNode.children || [];
+    const oldChildren = oldVNode.children || [];
     const newChildren = newVNode.children || [];
 
     const max = Math.max(oldChildren.length, newChildren.length);
@@ -87,5 +102,3 @@ function updateAttributes(oldVNode, newVNode, domElement) {
     }
   });
 }
-
-export default diff;

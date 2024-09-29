@@ -38,25 +38,26 @@ b)Efficient Updates: By only updating parts of the real dom that have changed.
 
 */
 
-export let previousNode=null
-
 /**
  * Render Initial virtual Dom tree into root container of app.
  * @param {HTML Element} container - Dom element to to render virutal dom into.
  * @param {object} newNode - An Object representing new virtual dom tree. 
  */
+export let currentComponent = null;
 
-export function createRoot(container,newNode){
-  if(previousNode){
-    // futher re-render with diff to only update between differnce from previousNode to newNode
-    diff(previousNode,newNode,container)
-  }else{
-    // Initial render
-    const newDom = createRealDom(newNode)
-    container.appendChild(newDom)
-  }
-  // update the refernces to current virtual dom tree
-  previousNode = newNode
+export function renderComponent(component) {
+  currentComponent = component;
+  const vNode = component.render();
+  // console.log("Todo vNode",vNode)
+  const dom = createRealDom(vNode);  
+  component.dom = dom;
+  component.oldVNode = vNode;      
+  // currentComponent = null;
+  return dom;
+}
+
+export function createRoot(container,initialNode){
+  container.appendChild(renderComponent(initialNode))
 }
 
 /**
@@ -81,7 +82,6 @@ export function createRealDom(vNode){
     // Handling Attacing event props
     if(propName.startsWith("on")){
       const eventType = propName.toLowerCase().substring(2)
-      console.log(propName,eventType,vNode.props[propName])
       domElement.removeEventListener(eventType,vNode.props[propName])
       domElement.addEventListener(eventType,vNode.props[propName])
     }
@@ -98,3 +98,5 @@ export function createRealDom(vNode){
 
   return domElement
 }
+
+
