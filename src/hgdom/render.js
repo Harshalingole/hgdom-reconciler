@@ -38,23 +38,22 @@ b)Efficient Updates: By only updating parts of the real dom that have changed.
 
 */
 
-/**
- * Render Initial virtual Dom tree into root container of app.
- * @param {HTML Element} container - Dom element to to render virutal dom into.
- * @param {object} newNode - An Object representing new virtual dom tree. 
- */
 export let currentComponent = null;
 
 export function renderComponent(component) {
   currentComponent = component;
   const vNode = component.render();
-  // console.log("Todo vNode",vNode)
   const dom = createRealDom(vNode);  
   component.dom = dom;
   component.oldVNode = vNode;      
   // currentComponent = null;
   return dom;
 }
+/**
+ * Render Initial virtual Dom tree into root container of app.
+ * @param {HTML Element} container - Dom element to to render virutal dom into.
+ * @param {object} newNode - An Object representing new virtual dom tree. 
+ */
 
 export function createRoot(container,initialNode){
   container.appendChild(renderComponent(initialNode))

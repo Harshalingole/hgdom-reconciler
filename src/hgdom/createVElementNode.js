@@ -28,7 +28,6 @@ a)createVElementNode: represent an HTML element in actual Dom and Node of viruta
 
 export function createVElementNode(type,props={},...children){
   if(arguments.length === 0){
-    console.log(arguments)
     throw new Error("Arguments are empty")
   }
   if(type === "undefined" || typeof type !== "string" ){

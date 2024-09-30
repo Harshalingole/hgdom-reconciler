@@ -1,0 +1,41 @@
+
+#app {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  margin-top: 50px;
+  color: #E0E0E0;
+}
+
+
+#app h1 {
+  color: #FFF;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+
+#app p {
+  margin-top: 20px;
+  font-size: 2rem;
+  color: #E0E0E0;
+}
+
+
+#app button {
+  padding: 12px 25px;
+  margin: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background-color: #1A73E8;
+  color: #FFF;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#app button:hover {
+  background-color: #1665C1;
+  transform: translateY(-3px);
+}
+
+

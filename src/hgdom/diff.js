@@ -19,8 +19,6 @@ Key Differnces to Handle:
 
 
 export function diff(oldVNode, newVNode, parentDom, index = 0) {
-  console.log("oldVNode",oldVNode)
-  console.log("newVNode",newVNode)
   // get the current dom node from the parentDom's children
   let currentDomNode = parentDom.childNodes[index];
   // 1)if oldVNode not exist add newVNode
@@ -35,7 +33,7 @@ export function diff(oldVNode, newVNode, parentDom, index = 0) {
   }
   // 3) if the types are differnt, remove the old types with newOne
   else if (oldVNode.type !== newVNode.type) {
-    const newDom = creatRealDom(newVNode);
+    const newDom = createRealDom(newVNode);
     // newVNode.dom = newDom
     parentDom.replaceChild(newDom, currentDomNode);
   } else if (
